@@ -28,19 +28,30 @@ def search_data(query, directory):
         FROM read_csv_auto('{directory}/*.csv')
         WHERE Prix_Unitaire = {query}
         """
-    # Recherche par catégorie
+    # Recherche par catégorie ou par nom de produit
     else:
         sql_query = f"""
         SELECT * 
         FROM read_csv_auto('{directory}/*.csv')
-        WHERE Categorie = '{query}'
+        WHERE Categorie like '%{query}%' OR Nom_Produit like '%{query}%'
         """
 
     results = con.execute(sql_query).df()
     return results
 
-# Fonction pour générer un rapport récapitulatif par catégorie
+# Fonction pour générer un rapport récapitulatif
 def generate_rapport(directory, output_file):
+    con = duckdb.connect()
+    query = f"""
+    SELECT *
+    FROM read_csv_auto('{directory}/*.csv')
+    """
+    report = con.execute(query).df()
+    report.to_csv(output_file, index=False)
+    print(f"Rapport généré avec succès: {output_file}")
+
+# Fonction pour générer un rapport récapitulatif par catégorie
+def generate_rapport_categorie(directory, output_file):
     con = duckdb.connect()
     query = f"""
     SELECT Categorie, SUM(Quantite) AS Quantite_totale, AVG(Prix_Unitaire) AS Prix_moyen
@@ -50,4 +61,4 @@ def generate_rapport(directory, output_file):
     """
     report = con.execute(query).df()
     report.to_csv(output_file, index=False)
-    print(f"Rapport généré avec succès: {output_file}")
+    print(f"Rapport par catégorie généré avec succès: {output_file}")
