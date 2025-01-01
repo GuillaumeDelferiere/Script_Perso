@@ -1,7 +1,16 @@
+"""
+Module contenant les fonctions pour consolider les fichiers CSV
+en une seule table temporaire avec DuckDB
+"""
 import duckdb
 
 # Fonction pour consolider les fichiers CSV en une seule table temporaire avec DuckDB
 def consolidate_files(directory):
+    """
+    Consolider les fichiers CSV en une seule table temporaire avec DuckDB
+    :param directory:
+    :return consolidate_data:
+    """
     con = duckdb.connect()
     query = f"""
     SELECT * 
@@ -12,6 +21,12 @@ def consolidate_files(directory):
 
 # Fonction pour rechercher des informations dans les fichiers consolidés
 def search_data(query, directory):
+    """
+    Rechercher des informations dans les fichiers consolidés
+    :param query:
+    :param directory:
+    :return results:
+    """
     con = duckdb.connect()
 
     # Recherche par quantité
@@ -41,6 +56,12 @@ def search_data(query, directory):
 
 # Fonction pour générer un rapport récapitulatif
 def generate_rapport(directory, output_file):
+    """
+    Générer un rapport récapitulatif
+    :param directory:
+    :param output_file:
+    :return:
+    """
     con = duckdb.connect()
     query = f"""
     SELECT *
@@ -52,6 +73,12 @@ def generate_rapport(directory, output_file):
 
 # Fonction pour générer un rapport récapitulatif par catégorie
 def generate_rapport_categorie(directory, output_file):
+    """
+    Générer un rapport récapitulatif par catégorie
+    :param directory:
+    :param output_file:
+    :return:
+    """
     con = duckdb.connect()
     query = f"""
     SELECT Categorie, SUM(Quantite) AS Quantite_totale, AVG(Prix_Unitaire) AS Prix_moyen
