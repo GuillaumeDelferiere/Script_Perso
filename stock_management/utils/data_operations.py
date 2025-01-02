@@ -9,7 +9,7 @@ def consolidate_files(directory):
     """
     Consolider les fichiers CSV en une seule table temporaire avec DuckDB
     :param directory:
-    :return consolidate_data:
+    :return consolidate_data qui est un tableau de l'ensemble des données:
     """
     con = duckdb.connect()
     query = f"""
@@ -25,7 +25,7 @@ def search_data(query, directory):
     Rechercher des informations dans les fichiers consolidés
     :param query:
     :param directory:
-    :return results:
+    :return results qui est un tableau de données correspondant à la recherche:
     """
     con = duckdb.connect()
 
@@ -60,7 +60,7 @@ def generate_rapport(directory, output_file):
     Générer un rapport récapitulatif
     :param directory:
     :param output_file:
-    :return:
+    :return un fichier contenant le rapport récapitulatif de l'ensemble des données:
     """
     con = duckdb.connect()
     query = f"""
@@ -77,7 +77,7 @@ def generate_rapport_categorie(directory, output_file):
     Générer un rapport récapitulatif par catégorie
     :param directory:
     :param output_file:
-    :return:
+    :return un fichier contenant le rapport récapitulatif par catégorie:
     """
     con = duckdb.connect()
     query = f"""
