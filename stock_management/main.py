@@ -2,7 +2,6 @@
 Script principal pour gérer les arguments de la ligne de commande
 Avec DuckDB
 """
-import argparse
 import os
 from utils.data_operations import (
     consolidate_files, search_data, generate_rapport_categorie, generate_rapport
@@ -11,44 +10,55 @@ from utils.data_operations import (
 # Dossier pour les fichiers CSV
 DATA_DIRECTORY = "data"
 
+def afficher_menu():
+    """
+    Afficher le menu principal
+    :return:
+    """
+    print("""
+    Menu Gestion Inventaire
+    1. Consolider les fichiers CSV
+    2. Rechercher un produit
+    3. Générer un rapport
+    4. Générer un rapport par catégorie
+    5. Quitter
+    """)
+
 
 # Fonction principale avec argparse
 def main():
     """
     Fonction principale pour gérer les arguments de la ligne de commande
     """
-    parser = argparse.ArgumentParser(description="Gestion de stock avec DuckDB")
-    parser.add_argument(
-        "--consolidate", action="store_true", help="Consolider les fichiers CSV en une base unique"
-    )
-    parser.add_argument(
-        "--search", type=str, help="Rechercher un produit dans la base"
-    )
-    parser.add_argument(
-        "--report", action="store_true",
-        help="Générer un rapport sur les produits"
-    )
-    parser.add_argument(
-        "--report_category", action="store_true",
-        help="Générer un rapport sur les produits par catégorie"
-    )
-    args = parser.parse_args()
+    while True :
+        afficher_menu()
+        choix = input("Entrez votre choix: ")
 
-    if args.consolidate:
-        data = consolidate_files(DATA_DIRECTORY)
-        print(data)
-    elif args.search:
-        results = search_data(args.search, DATA_DIRECTORY)
-        print(results)
-    elif args.report:
-        report_file = os.path.join(DATA_DIRECTORY, "rapport.csv")
-        generate_rapport(DATA_DIRECTORY, report_file)
-    elif args.report_category:
-        report_file = os.path.join(DATA_DIRECTORY, "rapport_par_categorie.csv")
-        generate_rapport_categorie(DATA_DIRECTORY, report_file)
-    else:
-        print("Aucune option sélectionnée. Utilisez --help pour voir les options disponibles.")
+        if choix == "1":
+            df = consolidate_files(DATA_DIRECTORY)
+            print("Fichiers consolidés avec succès !")
+            print(df)
 
+        elif choix == "2":
+            query = input("Entrez votre recherche: ")
+            results = search_data(query, DATA_DIRECTORY)
+            print(results)
+
+        elif choix == "3":
+            output_file = input("Entrez le nom du fichier de sortie: ")
+            output_path = os.path.join(DATA_DIRECTORY, output_file)
+            generate_rapport(DATA_DIRECTORY, output_path)
+            print(f"Rapport généré avec succès: {output_path}")
+
+        elif choix == "4":
+            output_file = input("Entrez le nom du fichier de sortie: ")
+            output_path = os.path.join(DATA_DIRECTORY, output_file)
+            generate_rapport_categorie(DATA_DIRECTORY, output_path)
+            print(f"Rapport généré avec succès: {output_path}")
+
+        elif choix == "5":
+            print("Merci d'avoir utilisé le programme !")
+            break
 
 if __name__ == "__main__":
     main()
