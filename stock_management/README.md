@@ -26,29 +26,6 @@ Ce projet permet de gérer et d'analyser des fichiers CSV contenant des informat
     pip install -r requirements.txt
     ```
 
-## Utilisation
-Exécutez le script avec les options souhaitées :
-
-- Pour consolider les fichiers CSV :
-    ```bash
-    python main.py --consolidate
-    ```
-
-- Pour rechercher un produit :
-    ```bash
-    python main.py --search <nom_du_produit>
-    ```
-
-- Pour générer un rapport récapitulatif :
-    ```bash
-    python main.py --report
-    ```
-
-- Pour générer un rapport récapitulatif par catégorie :
-    ```bash
-    python main.py --report_category
-    ```
-
 ## Structure du projet
 - `main.py` : Script principal pour gérer les arguments de la ligne de commande.
 - `utils/data_operations.py` : Contient les fonctions pour consolider les fichiers, rechercher des données et générer des rapports.
