@@ -63,10 +63,9 @@ def generate_rapport(directory, output_file):
     """
     Générer un rapport récapitulatif
     PRE: les fichiers CSV doivent être dans le dossier spécifié, le dossier doit exister.
-    POST: Renvoie un fichier dans le directory data avec le nom choisi en paramètres contenant le rapport récapitulatif de l'ensemble des données
+    POST: Charge un fichier dans le directory data avec le nom choisi en paramètres contenant le rapport récapitulatif de l'ensemble des données
     :param directory:
     :param output_file:
-    :return un fichier contenant le rapport récapitulatif de l'ensemble des données:
     """
     con = duckdb.connect()
     query = f"""
@@ -82,10 +81,9 @@ def generate_rapport_categorie(directory, output_file):
     """
     Générer un rapport récapitulatif par catégorie
     PRE: les fichiers CSV doivent être dans le dossier spécifié, le dossier doit exister.
-    POST: Renvoie un fichier dans le directory data avec le nom choisi en paramètres contenant le rapport récapitulatif par catégorie
+    POST: Charge un fichier dans le directory data avec le nom choisi en paramètres contenant le rapport récapitulatif par catégorie
     :param directory:
     :param output_file:
-    :return un fichier contenant le rapport récapitulatif par catégorie:
     """
     con = duckdb.connect()
     query = f"""
