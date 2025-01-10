@@ -3,6 +3,7 @@ Script principal pour gérer les arguments de la ligne de commande
 Avec DuckDB
 """
 import os
+import argparse
 from utils.data_operations import (
     consolidate_files, search_data, generate_rapport_categorie, generate_rapport
 )
@@ -25,12 +26,11 @@ def afficher_menu():
     """)
 
 
-# Fonction principale avec argparse
-def main():
+def gestion_interactive():
     """
-    Fonction principale pour gérer les arguments de la ligne de commande
+    Mode interactif avec menu.
     """
-    while True :
+    while True:
         afficher_menu()
         choix = input("Entrez votre choix: ")
 
@@ -60,5 +60,55 @@ def main():
             print("Merci d'avoir utilisé le programme !")
             break
 
+
+def main():
+    """
+    Fonction principale pour gérer les arguments de la ligne de commande
+    """
+    parser = argparse.ArgumentParser(description="Gestion de l'inventaire avec DuckDB")
+    parser.add_argument(
+        "--mode", choices=["interactive", "consolidate", "search", "report", "report-category"],
+        help="Mode d'exécution : 'interactive', 'consolidate', 'search', 'report', 'report-category'."
+    )
+    parser.add_argument("--query", type=str, help="Recherche d'un produit ou catégorie (utilisé avec --mode search).")
+    parser.add_argument("--output", type=str, help="Nom du fichier de sortie (utilisé avec --mode report/report-category).")
+    args = parser.parse_args()
+
+    if args.mode == "interactive":
+        gestion_interactive()
+
+    elif args.mode == "consolidate":
+        df = consolidate_files(DATA_DIRECTORY)
+        print("Fichiers consolidés avec succès !")
+        print(df)
+
+    elif args.mode == "search":
+        if not args.query:
+            print("Erreur : Vous devez fournir une recherche avec --query.")
+        else:
+            results = search_data(args.query, DATA_DIRECTORY)
+            print(results)
+
+    elif args.mode == "report":
+        if not args.output:
+            print("Erreur : Vous devez fournir un fichier de sortie avec --output.")
+        else:
+            output_path = os.path.join(DATA_DIRECTORY, args.output)
+            generate_rapport(DATA_DIRECTORY, output_path)
+            print(f"Rapport généré avec succès : {output_path}")
+
+    elif args.mode == "report-category":
+        if not args.output:
+            print("Erreur : Vous devez fournir un fichier de sortie avec --output.")
+        else:
+            output_path = os.path.join(DATA_DIRECTORY, args.output)
+            generate_rapport_categorie(DATA_DIRECTORY, output_path)
+            print(f"Rapport généré avec succès : {output_path}")
+
+    else:
+        print("Aucun mode valide sélectionné. Utilisez --help pour voir les options disponibles.")
+
+
 if __name__ == "__main__":
     main()
+
