@@ -8,6 +8,8 @@ import duckdb
 def consolidate_files(directory):
     """
     Consolider les fichiers CSV en une seule table temporaire avec DuckDB
+    PRE: les fichiers CSV doivent être dans le dossier spécifié, le dossier doit exister.
+    POST: Renvoie un tableau de l'ensemble des données consolidées
     :param directory:
     :return consolidate_data qui est un tableau de l'ensemble des données:
     """
@@ -23,6 +25,8 @@ def consolidate_files(directory):
 def search_data(query, directory):
     """
     Rechercher des informations dans les fichiers consolidés
+    PRE: les fichiers CSV doivent être dans le dossier spécifié, le dossier doit exister.
+    POST: Renvoie un tableau de données correspondant à la recherche
     :param query:
     :param directory:
     :return results qui est un tableau de données correspondant à la recherche:
@@ -58,6 +62,8 @@ def search_data(query, directory):
 def generate_rapport(directory, output_file):
     """
     Générer un rapport récapitulatif
+    PRE: les fichiers CSV doivent être dans le dossier spécifié, le dossier doit exister.
+    POST: Renvoie un fichier dans le directory data avec le nom choisi en paramètres contenant le rapport récapitulatif de l'ensemble des données
     :param directory:
     :param output_file:
     :return un fichier contenant le rapport récapitulatif de l'ensemble des données:
@@ -75,6 +81,8 @@ def generate_rapport(directory, output_file):
 def generate_rapport_categorie(directory, output_file):
     """
     Générer un rapport récapitulatif par catégorie
+    PRE: les fichiers CSV doivent être dans le dossier spécifié, le dossier doit exister.
+    POST: Renvoie un fichier dans le directory data avec le nom choisi en paramètres contenant le rapport récapitulatif par catégorie
     :param directory:
     :param output_file:
     :return un fichier contenant le rapport récapitulatif par catégorie:
